@@ -6,6 +6,14 @@ const port = 3000;
 // Using eval, but not security issue as input is static, not user controlled
 eval("1+2")
 
+// Unsafe eval
+function test1(req,res) {
+  const data = JSON.stringify(req.query.key);
+  const command = `(secret) => {${data}}`
+  // ruleid:code-string-concat
+  return eval(command)
+}
+
 const server = http.createServer((req, res) => {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/plain');
